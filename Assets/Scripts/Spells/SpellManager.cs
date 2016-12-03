@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System;
+using UnityEngine;
 
 public class SpellManager
 {
@@ -6,6 +7,8 @@ public class SpellManager
     private Transform player;
 
     private bool casting;
+
+    private Spell currentSpell;
 
     private static SpellManager instance;
     public static SpellManager Instance
@@ -30,6 +33,7 @@ public class SpellManager
             if (spellObject)
             {
                 spellObject.transform.parent = player;
+                currentSpell = spellObject.GetComponent<Spell>();
                 casting = true;
             }
         }
@@ -40,7 +44,7 @@ public class SpellManager
         GameObject spellResource = getSpellResource(value);
         if (spellResource)
         {
-            return (GameObject)Object.Instantiate(spellResource, player.position + Vector3.up, player.rotation);
+            return (GameObject)UnityEngine.Object.Instantiate(spellResource, player.position + Vector3.up, player.rotation);
         }
         return null;
     }
@@ -48,7 +52,7 @@ public class SpellManager
     private GameObject getSpellResource(SpellValues value)
     {
         string resourceAddress = getSpellResourceAddress(value);
-        if (resourceAddress != "")
+        if (!string.IsNullOrEmpty(resourceAddress))
         {
             return (GameObject)Resources.Load(resourceAddress);
         }
@@ -67,8 +71,19 @@ public class SpellManager
         return "";
     }
 
-    public void FinishSpellCast()
+    public void NextActivity()
     {
+        if (!currentSpell.NextActivity())
+        {
+            FinishSpellCast();
+        }
+    }
+
+    private void FinishSpellCast()
+    {
+        UnityEngine.Object spellObject = currentSpell.gameObject;
+        currentSpell = null;
+        UnityEngine.Object.Destroy(spellObject);
         casting = false;
     }
 }
