@@ -3,60 +3,64 @@
 public class EnemySpawner : MonoBehaviour
 {
     // The enemy to spawn
-    public GameObject enemy;
+    [SerializeField]
+    private GameObject _enemy;
 
     // The radius within which enemies will be spawned
-    public float radius = 20.0f;
+    [SerializeField]
+    private float _radius = 20.0f;
 
     // Timer elapsed before a new enemy is spawned, in seconds
-    public float spawnTimer = 3.0f;
+    [SerializeField]
+    private float _spawnTimer = 3.0f;
 
-    public int maxEnemiesOnMap = 20;
+    [SerializeField]
+    private int _maxEnemiesOnMap = 20;
 
-    private float timer;
-    private Transform player;
+    private float _timer;
+    private Transform _player;
 
-    private EnemyManager enemyManager;
+    private EnemyManager _enemyManager;
 
     // Use this for initialization
     void Start()
     {
-        timer = 0;
-        player = GameObject.FindWithTag("Player").transform;
-        enemyManager = EnemyManager.Instance;
+        _timer = 0;
+        _player = GameObject.FindWithTag("Player").transform;
+        _enemyManager = EnemyManager.Instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (EnemyManager.Instance.enemiesOnMap < maxEnemiesOnMap)
+        if (EnemyManager.Instance.EnemiesOnMap < _maxEnemiesOnMap)
         {
-            timer += Time.deltaTime;
+            _timer += Time.deltaTime;
 
-            if (timer > spawnTimer)
+            if (_timer > _spawnTimer)
             {
-                if (enemy)
+                if (_enemy)
                 {
                     InstantiateEnemy();
                 }
-                timer = 0;
+                _timer = 0;
             }
         }
     }
 
     void InstantiateEnemy()
     {
-        Vector3 position = getSpawnPosition();
-        Quaternion rotation = getSpawnRotation(position);
-        Instantiate(enemy, position, rotation);
-        ++enemyManager.enemiesOnMap;
+        Vector3 position = GetSpawnPosition();
+        Quaternion rotation = GetSpawnRotation(position);
+        Instantiate(_enemy, position, rotation);
+        ++_enemyManager.EnemiesOnMap;
     }
 
     // Get a random spawn position within the radius of the spawner
-    Vector3 getSpawnPosition()
+    Vector3 GetSpawnPosition()
     {
         // Get the offset fromn the spawner as a point within the spawn circle
-        Vector3 offsetFromOrigin = radius * (Vector3)Random.insideUnitCircle;
+        Vector3 offsetFromOrigin = _radius * (Vector3)Random.insideUnitCircle;
 
         // Use z axis instead of y, since we want to spawn on the xz plane
         offsetFromOrigin.z = offsetFromOrigin.y;
@@ -69,10 +73,10 @@ public class EnemySpawner : MonoBehaviour
     }
 
     // Get the rotation of the enemy so that the enemy is looking at the player
-    Quaternion getSpawnRotation(Vector3 spawnPosition)
+    Quaternion GetSpawnRotation(Vector3 spawnPosition)
     {
         // Get the player's position relative to the enemy spawn location
-        Vector3 relativePosition = player.position - spawnPosition;
+        Vector3 relativePosition = _player.position - spawnPosition;
 
         // Ignore the difference in the player's y value and the enemy's
         // We do not want the enemy looking up or down by default

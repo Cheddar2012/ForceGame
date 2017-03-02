@@ -2,21 +2,21 @@
 
 public class Enemy : MonoBehaviour
 {
-    EnemyManager enemyManager;
+    private EnemyManager _enemyManager;
 
     // Use this for initialization
     void Start()
     {
-        enemyManager = EnemyManager.Instance;
+        _enemyManager = EnemyManager.Instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (transform.position.y < enemyManager.verticalDespawnThreshold)
+        if (transform.position.y < _enemyManager.VerticalDespawnThreshold)
         {
             Destroy(gameObject);
-            --enemyManager.enemiesOnMap;
+            --_enemyManager.EnemiesOnMap;
         }
     }
 }

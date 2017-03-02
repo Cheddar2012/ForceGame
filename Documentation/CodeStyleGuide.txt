@@ -1,0 +1,54 @@
+Style Guide
+
+class
+Use PascalCase.
+class MyClass
+{
+	// Include members
+}
+
+struct
+Use PascalCase.
+struct MyStruct
+{
+	// Include members
+}
+
+function
+Use PascalCase.
+void MyFunction()
+{
+	// Do something
+}
+
+private member variable
+Use camelCase with preceding underscore.
+private int _myPrivateMemberVariable;
+
+protected member variable
+Use camelCase with preceding underscore.
+protected int _myProtectedMemberVariable;
+
+public member variable
+Use PascalCase.
+public int MyPublicVariable;
+
+private member constant
+Use camelcase with preceding underscore.
+private const int _myPrivateMemberConstant;
+
+protected member constant
+Use camelCase with preceding underscore.
+protected const int _myProtectedMemberConstant;
+
+public member constant
+Use PascalCase.
+public const int MyPublicConstant;
+
+local variable
+Use camelCase.
+private int myLocalVariable;
+
+local constant
+Use camelCase.
+private const int myLocalConstant;

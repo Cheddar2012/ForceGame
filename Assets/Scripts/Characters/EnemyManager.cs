@@ -1,21 +1,21 @@
 ﻿
 public class EnemyManager
 {
-    public int enemiesOnMap;
-    public float verticalDespawnThreshold { get; private set; }
+    public int EnemiesOnMap;
+    public float VerticalDespawnThreshold { get; private set; }
 
-    private static EnemyManager instance;
+    private static EnemyManager _instance;
     public static EnemyManager Instance
     {
         get
         {
-            return instance ?? (instance = new EnemyManager());
+            return _instance ?? (_instance = new EnemyManager());
         }
     }
 
     private EnemyManager()
     {
-        enemiesOnMap = 0;
-        verticalDespawnThreshold = -10;
+        EnemiesOnMap = 0;
+        VerticalDespawnThreshold = -10;
     }
 }

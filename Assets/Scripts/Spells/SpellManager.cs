@@ -4,54 +4,54 @@ using UnityEngine;
 public class SpellManager
 {
     public enum SpellValues { Explosion = 1, GravityBall }
-    private Transform player;
+    private Transform _player;
 
-    private bool casting;
+    private bool _casting;
 
-    private Spell currentSpell;
+    private Spell _currentSpell;
 
-    private static SpellManager instance;
+    private static SpellManager _instance;
     public static SpellManager Instance
     {
         get
         {
-            return instance ?? (instance = new SpellManager());
+            return _instance ?? (_instance = new SpellManager());
         }
     }
 
     private SpellManager()
     {
-        player = GameObject.FindWithTag("Player").transform;
-        casting = false;
+        _player = GameObject.FindWithTag("Player").transform;
+        _casting = false;
     }
 
     public void CastSpell(int value)
     {
-        if (!casting)
+        if (!_casting)
         {
-            GameObject spellObject = getSpellObject((SpellValues)value);
+            GameObject spellObject = GetSpellObject((SpellValues)value);
             if (spellObject)
             {
-                spellObject.transform.parent = player;
-                currentSpell = spellObject.GetComponent<Spell>();
-                casting = true;
+                spellObject.transform.parent = _player;
+                _currentSpell = spellObject.GetComponent<Spell>();
+                _casting = true;
             }
         }
     }
 
-    private GameObject getSpellObject(SpellValues value)
+    private GameObject GetSpellObject(SpellValues value)
     {
-        GameObject spellResource = getSpellResource(value);
+        GameObject spellResource = GetSpellResource(value);
         if (spellResource)
         {
-            return (GameObject)UnityEngine.Object.Instantiate(spellResource, player.position + Vector3.up, player.rotation);
+            return (GameObject)UnityEngine.Object.Instantiate(spellResource, _player.position + Vector3.up, _player.rotation);
         }
         return null;
     }
 
-    private GameObject getSpellResource(SpellValues value)
+    private GameObject GetSpellResource(SpellValues value)
     {
-        string resourceAddress = getSpellResourceAddress(value);
+        string resourceAddress = GetSpellResourceAddress(value);
         if (!string.IsNullOrEmpty(resourceAddress))
         {
             return (GameObject)Resources.Load(resourceAddress);
@@ -59,7 +59,7 @@ public class SpellManager
         return null;
     }
 
-    private string getSpellResourceAddress(SpellValues value)
+    private string GetSpellResourceAddress(SpellValues value)
     {
         switch (value)
         {
@@ -73,7 +73,7 @@ public class SpellManager
 
     public void NextActivity()
     {
-        if (!currentSpell.NextActivity())
+        if (!_currentSpell.NextActivity())
         {
             FinishSpellCast();
         }
@@ -81,9 +81,9 @@ public class SpellManager
 
     private void FinishSpellCast()
     {
-        UnityEngine.Object spellObject = currentSpell.gameObject;
-        currentSpell = null;
+        UnityEngine.Object spellObject = _currentSpell.gameObject;
+        _currentSpell = null;
         UnityEngine.Object.Destroy(spellObject);
-        casting = false;
+        _casting = false;
     }
 }

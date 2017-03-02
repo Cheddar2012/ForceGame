@@ -3,12 +3,12 @@ using System.Collections.Generic;
 
 public abstract class Spell : MonoBehaviour {
 
-    protected Queue<SpellActivity> activities;
-    private SpellActivity currentActivity;
+    protected Queue<SpellActivity> _activities;
+    private SpellActivity _currentActivity;
 
     void Start()
     {
-        activities = new Queue<SpellActivity>();
+        _activities = new Queue<SpellActivity>();
         OnStart();
         SpellManager.Instance.NextActivity();
     }
@@ -18,20 +18,20 @@ public abstract class Spell : MonoBehaviour {
 
     void Update()
     {
-        currentActivity.Update();
+        _currentActivity.Update();
     }
 
     private void FixedUpdate()
     {
-        currentActivity.FixedUpdate();
+        _currentActivity.FixedUpdate();
     }
 
     public bool NextActivity()
     {
-        if (activities.Count > 0)
+        if (_activities.Count > 0)
         {
-            currentActivity = activities.Dequeue();
-            currentActivity.Start();
+            _currentActivity = _activities.Dequeue();
+            _currentActivity.Start();
             return true;
         }
         return false;

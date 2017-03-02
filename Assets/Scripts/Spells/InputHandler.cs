@@ -2,24 +2,24 @@
 
 public class InputHandler : MonoBehaviour
 {
-    private SpellManager spellManager;
+    private SpellManager _spellManager;
 
-    private const int numSpells = 10;
+    private const int _numSpells = 10;
 
     // Use this for initialization
     void Start()
     {
-        spellManager = SpellManager.Instance;
+        _spellManager = SpellManager.Instance;
     }
 
     // Update is called once per frame
     void Update()
     {
-        for (int i = 0; i < numSpells; ++i)
+        for (int i = 0; i < _numSpells; ++i)
         {
             if (Input.GetKeyDown(i.ToString()))
             {
-                spellManager.CastSpell(i);
+                _spellManager.CastSpell(i);
             }
         }
     }
